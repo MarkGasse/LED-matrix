@@ -1,5 +1,7 @@
 #include "ostream" 
 #include "ledmatrix.hpp"
+#include "snake.hpp"
+#include "fruit.hpp"
 #include "vector"
 #include "string"
 using namespace std;
@@ -21,37 +23,50 @@ int main( void ){
    auto data = target::pin_out( target::pins::d8 );     //DIN
    auto spi_bus = hwlib::spi_bus_bit_banged_sclk_mosi_miso( clock, data, hwlib::pin_in_dummy );
 
+   int direction = 1;
+   int tail = 0;
    ledmatrix m(8,8,spi_bus,load,0x00);
+   snake s(m,direction,tail);
+   fruit f(m,6,6);
+
+   for(;;){
+		// setting snake direction 
+		if(right.get() == 0 && direction != 2){
+			direction = 1;
+		}else if(left.get() == 0 && direction != 1){
+			direction = 2;
+		}else if(up.get() == 0 && direction != 4){
+			direction = 3;
+		}else if(down.get() == 0 && direction != 3){
+			direction = 4;
+		}
+		s.draw();
+		f.draw();
+		s.update();
+		f.update();
+   }
+   
+   
+   
 	//m.setup();
-
-		//vector<int> testA[] = {};
-		//testA[0] = {int x = 1, int y = 1};
-
 	   // start position fruit
+
+	   //m.setpixel(1,1,1);
+	   //m.setpixel(0,0,1);
+	  // m.write_pixel(1,1,1);
+	   
+	   /*
 	   int fx = 6; int fy = 6;
-	   // start position snake
-	   //vector<int> snake[] = {};
-	  // int sx = snake[0][0] = 1; int sy = snake[0][1] = 1;
 	   
-	   
-	   
-	   
-	   
-	   
-	   int snakeX[64] = {};
-	   int snakeY[64] = {};
+	   int snakeX[10] = {};
+	   int snakeY[10] = {};
 	   snakeX[0] = 1;
 	   snakeY[0] = 1;
 	   
 	   int tailSize = 1;
-	   
-	   
-	   
-		//int sxx = sx; int syy = sy;
 	   int direction = 1;
 	   int mode = 1;
-	   //int snakeSize = 1;
-	   //int value;
+
 	   while(mode == 1){
 		   //set time for while loop to 0
 		   int wait_time = 0;
@@ -102,12 +117,7 @@ int main( void ){
 				if(snakeX[0] == fx && snakeY[0] ==fy){
 					fx = z; fy = z;
 					tailSize++;
-					//value = 1;
-				}//else{
-				//	value = 0;
-				//}
-				//m.write_pixel(sx,sy,0);
-				
+				}
 				
 				// writing fruits position
 				m.write_pixel(fx,fy,1);
@@ -123,5 +133,5 @@ int main( void ){
 	m.clear_all();
 	m.intensity(2);
 	m.write_all(20);
-   
+   */
 }
