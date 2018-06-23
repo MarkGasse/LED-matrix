@@ -2,6 +2,7 @@
 #define SNAKE_HPP
 #include "ostream" 
 #include "ledmatrix.hpp"
+#include "fruit.hpp"
 #include "vector"
 #include "string"
 using namespace std;
@@ -9,13 +10,15 @@ using namespace std;
 class snake {
 private:
 	ledmatrix & m;
+	fruit & f;
 	int direction;
 	int tailSize;
 	int snakeX[64];
 	int snakeY[64];
 public:
-	snake(ledmatrix & m, int & direction, int tailSize):
+	snake(ledmatrix & m, fruit & f, int & direction, int tailSize):
 	m( m ),
+	f( f ),
 	direction( direction ),
 	tailSize( tailSize )
 	{
@@ -24,7 +27,8 @@ public:
 	}
 	
 	void draw();
-	void update();
+	void update(int direction);
+	void checkFruit();
 	void gameover();
 };
 

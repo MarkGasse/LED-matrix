@@ -5,18 +5,23 @@
 class fruit {
 private:
 	ledmatrix & m;
+	int maxX;
+	int maxY;
 	int fx;
 	int fy;
 public:
-	fruit(ledmatrix & m, int fruitX, int fruitY):
+	fruit(ledmatrix & m,int maxX, int maxY, int fruitX, int fruitY):
 	m( m ),
+	maxX( maxX ),
+	maxY( maxY ),
 	fx( fruitX ),
 	fy( fruitY )
 	{}
 	
 	void draw();
 	void update();
-	void win();
+	int getFX();
+	int getFY();
 };
 
 #endif //FRUIT_HPP

@@ -8,7 +8,7 @@ void snake::draw(){
 	}
 }
 
-void snake::update(){
+void snake::update(int direction){
 	// last tail position x and y
 	int tailEndX = snakeX[0]; 
 	int tailEndY = snakeY[0];
@@ -21,26 +21,20 @@ void snake::update(){
 	   tailEndX = tmpx; 
 	   tailEndY = tmpy;
 	}
-   
-/*
-	// setting snake direction 
-	if(right.get() == 0 && direction != 2){
-			direction = 1;
-	}else if(left.get() == 0 && direction != 1){
-			direction = 2;
-	}else if(up.get() == 0 && direction != 4){
-			direction = 3;
-	}else if(down.get() == 0 && direction != 3){
-			direction = 4;
-	}
-*/
+	
 	// moving the snake every update
 	if(direction == 1){snakeX[0] += 1;}
 	if(direction == 2){snakeX[0] -= 1;}
 	if(direction == 3){snakeY[0] += 1;}
 	if(direction == 4){snakeY[0] -= 1;}
-	
-	snake::gameover();
+	//snake::gameover();
+}
+
+void snake::checkFruit(){
+	if(snakeX[0] == f.getFX() && snakeY[0] == f.getFY()){
+		f.update();
+		tailSize++;
+	}
 }
 
 //check gameover
@@ -48,6 +42,7 @@ void snake::gameover(){
 	if(snakeX[0] == 9 || snakeX[0] == 0 || snakeY[0] == 9 || snakeY[0] == 0){
 		m.clear_all();
 		m.intensity(2);
-		m.write_all(20);
+		m.write_all(35);
+		hwlib::wait_ms( 10000 );
 	}
 }

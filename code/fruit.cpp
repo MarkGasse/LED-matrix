@@ -7,10 +7,15 @@ void fruit::draw(){
 }
 
 void fruit::update(){
-	int z = rand() % 7 + 1;
-	fx = z; fy = z;
+	fx = rand() % maxX + 1;
+	fy = rand() % maxY + 1;
 }
 
-void win(){
-	
+int fruit::getFX(){
+	return fx;
 }
+
+int fruit::getFY(){
+	return fy;
+}
+

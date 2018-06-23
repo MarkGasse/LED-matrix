@@ -13,9 +13,9 @@ int main( void ){
    
    namespace target = hwlib::target;
   
-   auto left = target::pin_in( target::pins::d5);
-   auto right = target::pin_in( target::pins::d4);
-   auto up = target::pin_in( target::pins::d7);
+   auto right = target::pin_in( target::pins::d5);
+   auto up = target::pin_in( target::pins::d4);
+   auto left = target::pin_in( target::pins::d7);
    auto down = target::pin_in( target::pins::d6);
 
    auto clock = target::pin_out( target::pins::d10 );   //CLK
@@ -24,12 +24,14 @@ int main( void ){
    auto spi_bus = hwlib::spi_bus_bit_banged_sclk_mosi_miso( clock, data, hwlib::pin_in_dummy );
 
    int direction = 1;
-   int tail = 0;
+   int tail = 1;
    ledmatrix m(8,8,spi_bus,load,0x00);
-   snake s(m,direction,tail);
-   fruit f(m,6,6);
+   fruit f(m,8,8,6,6);
+   snake s(m,f,direction,tail);
+   
 
    for(;;){
+		s.update(direction);
 		// setting snake direction 
 		if(right.get() == 0 && direction != 2){
 			direction = 1;
@@ -40,10 +42,15 @@ int main( void ){
 		}else if(down.get() == 0 && direction != 3){
 			direction = 4;
 		}
-		s.draw();
-		f.draw();
-		s.update();
-		f.update();
+
+		for(int l = 0; l < (70/tail); l++){
+			s.draw();
+			f.draw();
+			s.checkFruit();
+			//hwlib::wait_ms( 200 );
+		}
+		s.gameover();
+	//hwlib::wait_ms( 20 );
    }
    
    
@@ -69,7 +76,7 @@ int main( void ){
 
 	   while(mode == 1){
 		   //set time for while loop to 0
-		   int wait_time = 0;
+		   //int wait_time = 0;
 		   //generate random fruit position 
 		   int z = rand() % 7 + 1;
 		   // last tail position x and y
@@ -127,7 +134,7 @@ int main( void ){
 				if(snakeX[0] == 9 || snakeX[0] == 0 || snakeY[0] == 9 || snakeY[0] == 0){
 					mode = 0;
 				}
-				wait_time++;
+				//wait_time++;
 			}
 	   }
 	m.clear_all();
