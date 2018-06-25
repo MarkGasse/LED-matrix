@@ -2,24 +2,33 @@
 #define LEDMATRIX_HPP
 
 #include "hwlib.hpp"
+/// @file
 
+/// \brief
+///
+/// \details
+///
 class ledmatrix {
 private:
 	int maxX;
 	int maxY;
 	hwlib::spi_bus & bus;
 	hwlib::pin_out & load;
-	uint8_t kolom;
+	uint8_t kolom = 0x00;
 	uint8_t koloms[8];
 	bool rows[8];
 
 public:
-	ledmatrix(	int maxX, int maxY, hwlib::spi_bus & bus, hwlib::pin_out & load, uint8_t kolom):
+
+	/// \brief
+	///
+	/// \details
+	///
+	ledmatrix(	int maxX, int maxY, hwlib::spi_bus & bus, hwlib::pin_out & load):
 	maxX( maxX ),
 	maxY( maxY ),
 	bus( bus ),
-	load( load ),
-	kolom( kolom )
+	load( load )
 	{
 		setup();
 		for(int i = 0; i < 8; i++){
@@ -29,15 +38,53 @@ public:
 			rows[j] = 0;
 		}
 	}
-	
-	
-	void setpixel(int x, int y, bool state);
-	void testscreen();
+
+	/// \brief
+	///
+	/// \details
+	///
 	void setup();
+	
+	/// \brief
+	///
+	/// \details
+	///
+	void setpixel(int x, int y, bool state);
+
+	/// \brief
+	///
+	/// \details
+	///
+	void writepixels();
+
+	/// \brief
+	///
+	/// \details
+	///
 	void intensity(int brithness);
+
+	/// \brief
+	///
+	/// \details
+	///
 	void clear_all();
+
+	/// \brief
+	///
+	/// \details
+	///
 	void write_all(int ms);
+
+	/// \brief
+	///
+	/// \details
+	///
 	void write_pixel(int x, int y, bool value);
+
+	/// \brief
+	///
+	/// \details
+	///
 	void testmatrix(int ms);
 	
 };
