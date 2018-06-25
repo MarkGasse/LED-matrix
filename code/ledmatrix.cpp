@@ -10,19 +10,34 @@ void ledmatrix::setpixel(int x, int y, bool state){
 		if(rows[b] == 0){
 			koloms[b] = 0x00;
 		}
-	}
+	}*/
 	
 	
 	if(state == 1){
-		rows[x] = 1;
-		koloms[x] |= (1 << (y - 1));
+		rows[x-1] = 1;
+		koloms[x-1] |= (1 << (y - 1));
 	}else{
-		rows[x] = 0;
-		koloms[x] &= ~(1 << (y - 1));
-	}*/
+		rows[x-1] = 0;
+		koloms[x-1] &= ~(1 << (y - 1));
+	}
 }
 
+void ledmatrix::testscreen(){
+	uint8_t position [2] = {};
+	for(int a = 0; a < 8; a++){
+		if(rows[a] == 1){
+			position[0] =  0x01 * a+1; position[1] =  koloms[a] ;
+		}else{
+			position[0] =  0x01 * a+1; position[1] =  0x00 ;
+		}
+			bus.write_and_read( load, 2, position, nullptr );
+		
+	}
+	position[0] =  0x0C; position[1] =  0x01 ;         // shutdownmode = 1
+	bus.write_and_read( load, 2, position, nullptr );
+	
 
+}
 
 
 
@@ -89,9 +104,9 @@ void ledmatrix::write_pixel(int  x, int  y, bool value){
 	// array<array<uint8_t,8>,8>
 	// [0][0] = 1    [0][1] = 1
 	//int array<array<uint8_t,8>,8>;
-	/*
+	
 	if(x <= maxX && y <= maxY){
-		uint8_t position [2] = {};
+		/*uint8_t position [2] = {};
 		for(int a = 0; a < 8; a++){
 			if(rows[a] == 1){
 				//position[0] =  rows[x]; position[1] =  koloms[y] ;         // position y  
@@ -125,13 +140,13 @@ void ledmatrix::write_pixel(int  x, int  y, bool value){
 		}
 		
 		
-		/*
+		
 		if(y == maxY && value == 0){
 			kolom = 0x00;
-			for(int h = 0; h < y; h++){
-				kolom |= (1 << h);
+			//for(int h = 0; h < y; h++){
+			//	kolom |= (1 << h);
 			}
-		}*/
+		}
 	//}
 }
 

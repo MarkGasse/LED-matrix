@@ -29,7 +29,6 @@ int main( void ){
    fruit f(m,8,8,6,6);
    snake s(m,f,direction,tail);
    
-
    for(;;){
 		s.update(direction);
 		// setting snake direction 
@@ -42,17 +41,21 @@ int main( void ){
 		}else if(down.get() == 0 && direction != 3){
 			direction = 4;
 		}
-
-		for(int l = 0; l < (70/tail); l++){
-			s.draw();
-			f.draw();
-			s.checkFruit();
-			//hwlib::wait_ms( 200 );
-		}
-		s.gameover();
-	//hwlib::wait_ms( 20 );
+		
+		//for(int l = 1; l >= 0; l--){
+		s.draw(1);
+		f.draw(1);
+		
+		m.testscreen();
+		s.draw(0);
+		f.draw(0);
+		//}
+		s.checkFruit();
+		//s.gameover();
+		hwlib::wait_ms( 150 );
+		//m.testscreen();
    }
-   
+  
    
    
 	//m.setup();

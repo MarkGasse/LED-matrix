@@ -18,7 +18,7 @@ public:
 	fy( fruitY )
 	{}
 	
-	void draw();
+	void draw(int state);
 	void update();
 	int getFX();
 	int getFY();

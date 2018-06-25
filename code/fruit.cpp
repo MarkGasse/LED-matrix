@@ -1,9 +1,14 @@
 #include "fruit.hpp"
 
-void fruit::draw(){
+void fruit::draw(int state){
 	// writing fruits position
-	m.write_pixel(fx,fy,1);
-	m.write_pixel(fx,fy,0);
+	if(state == 1){
+		m.setpixel(fx,fy,1);
+	}else{
+		m.setpixel(fx,fy,0);
+	}
+	
+
 }
 
 void fruit::update(){

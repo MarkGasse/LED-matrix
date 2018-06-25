@@ -26,7 +26,7 @@ public:
 		snakeY[0] = 1;
 	}
 	
-	void draw();
+	void draw(int state);
 	void update(int direction);
 	void checkFruit();
 	void gameover();
