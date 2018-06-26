@@ -48,12 +48,23 @@ void snake::update(int direction){
 }
 
 // check if snakeHead has the same position as the fruit
-// updates fruit and tailSize
+// updates fruit, tailSize and score
 void snake::checkFruit(){
 	if(snakeX[0] == f.getFX() && snakeY[0] == f.getFY()){
 		f.update();
 		tailSize++;
+		if(score[1] == 9){
+			score[0]++;
+			score[1] = 0;
+		}
+		score[1]++;
+		
 	}
+}
+
+void snake::points(){
+	m.digits(0,score[0]);
+	m.digits(4,score[1]);
 }
 
 // gameover animation
@@ -61,6 +72,7 @@ void snake::gameover(){
 		m.clear_all();
 		m.intensity(2);
 		m.write_all(35);
-		hwlib::wait_ms( 10000 );
 		m.clear_all();
+		points();
+		hwlib::wait_ms( 10000 );
 }

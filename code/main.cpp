@@ -26,6 +26,14 @@ int main( void ){
    ledmatrix m(8,8,spi_bus,load);
    fruit f(m,8,8,6,6);
    snake s(m,f,direction,tail);
+   /*for(int j = 0; j < 10; j++){
+	   m.digits(0,j);
+	   for(int i = 0;  i < 10; i++){
+			m.digits(4,i);  
+			hwlib::wait_ms( 800 );
+		}
+	}*/
+
    
    for(;;){
 		// snake game speed
@@ -49,6 +57,5 @@ int main( void ){
 		s.draw(0);
 		f.draw(0);
 		s.checkFruit();
-		
    }
 }

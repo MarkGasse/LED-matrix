@@ -15,6 +15,7 @@ private:
 	int tailSize;
 	int snakeX[64];
 	int snakeY[64];
+	int score[3] = {0,0};
 public:
 	snake(ledmatrix & m, fruit & f, int & direction, int tailSize):
 	m( m ),
@@ -29,6 +30,7 @@ public:
 	void draw(int state);
 	void update(int direction);
 	void checkFruit();
+	void points();
 	void gameover();
 };
 

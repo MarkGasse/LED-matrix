@@ -1,3 +1,15 @@
+// ==========================================================================
+//
+// File      : ledmatrix.cpp
+// Part of   : C++ hwlib library for close-to-the-hardware OO programming
+// Copyright : mark.gasse@student.hu.nl 2018
+//
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at 
+// http://www.boost.org/LICENSE_1_0.txt)
+//
+// ==========================================================================
+
 #include "ledmatrix.hpp"
 
 void ledmatrix::setup(){
@@ -98,6 +110,37 @@ void ledmatrix::write_pixel(int  x, int  y, bool value){
 		if(y == maxY && value == 1){  
 			kolom = 0x00;                       //set next kolom 0x00
 		}
+	}
+}
+
+void ledmatrix::digits(int start, int digit){
+	uint8_t leds[3] = {};
+	if(digit == 0){
+		leds[0] = 0x7C; leds[1] = 0x44;   leds[2] = 0x7C;
+	}else if(digit == 1){
+		leds[0] = 0x00; leds[1] = 0x00;   leds[2] = 0x7C;
+	}else if(digit == 2){
+		leds[0] = 0x74; leds[1] = 0x54;   leds[2] = 0x5C;
+	}else if(digit == 3){
+		leds[0] = 0x54; leds[1] = 0x54;   leds[2] = 0x7C;
+	}else if(digit == 4){
+		leds[0] = 0x1C; leds[1] = 0x10;   leds[2] = 0x7C;
+	}else if(digit == 5){
+		leds[0] = 0x5C; leds[1] = 0x54;   leds[2] = 0x74;
+	}else if(digit == 6){
+		leds[0] = 0x7C; leds[1] = 0x54;   leds[2] = 0x74;
+	}else if(digit == 7){
+		leds[0] = 0x0C; leds[1] = 0x04;   leds[2] = 0x7C;
+	}else if(digit == 8){
+		leds[0] = 0x7C; leds[1] = 0x54;   leds[2] = 0x7C;
+	}else if(digit == 9){
+		leds[0] = 0x5C; leds[1] = 0x54;   leds[2] = 0x7C;
+	}
+	
+	for(int n = 0; n < 3; n++){
+		uint8_t position[2] = {};
+		position[0] =  0x01 * (start+n+1); position[1] =  leds[n];                 
+		bus.write_and_read( load, 2, position, nullptr );
 	}
 }
 
