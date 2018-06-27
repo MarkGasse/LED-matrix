@@ -57,13 +57,12 @@ void ledmatrix::writepixels(){
 		}
 		bus.write_and_read( load, 2, position, nullptr );
 	}
-	//position[0] =  0x0C; position[1] =  0x01 ;         // shutdownmode = 1
-	//bus.write_and_read( load, 2, position, nullptr );
+
 
 }
 
 void ledmatrix::intensity(int brithness){
-	// set intensity  
+	 
 	uint8_t position [2] = {};
 	uint8_t bn = 0x01 * brithness;
 	position[0] =  0x0A; position[1] =  bn ;               
@@ -71,10 +70,10 @@ void ledmatrix::intensity(int brithness){
 }
 
 void ledmatrix::clear_all(){
-	//turn all leds off	
 	for( int j = 1; j <= maxX ; j++){
 		for(int i = 0; i <= maxY; i++){
-			write_pixel(j,i,0);
+			setpixel(j,i,0);
+			writepixels();
 		}
 	}
 }
@@ -83,10 +82,12 @@ void ledmatrix::write_all(int ms){
 	//turn all leds on
 	for( int j = 1; j <= maxX ; j++){
 		for(int i = 0; i <= maxY; i++){
-			write_pixel(j,i,1);
+			setpixel(j,i,1);
+			writepixels();
 			hwlib::wait_ms( ms );
 		}
 	}
+	
 }
 
 void ledmatrix::write_pixel(int  x, int  y, bool value){

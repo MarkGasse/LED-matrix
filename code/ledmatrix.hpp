@@ -23,8 +23,8 @@
 /// The maxX and maxY are stored as two (signed) integers.
 /// The bus exists of the data and clock output.
 /// Load (CS) for loading the data on the matrix.
-/// Koloms is an array of uint8_t to store the byte value.
-/// Rows is an array of booleans to store the row value.
+/// Koloms is an array of uint8_t to store the byte values.
+/// Rows is an array of booleans to store the row values.
 class ledmatrix {
 private:
 	int maxX;
@@ -66,7 +66,7 @@ public:
 	/// \brief
 	///	write position to array
 	/// \details
-	/// This function writes the x and y position to the array koloms
+	/// This function writes the x and y position to the array koloms.
 	void setpixel(int x, int y, bool state);
 
 	/// \brief
@@ -107,7 +107,7 @@ public:
 	/// write digit
 	/// \details
 	/// This function needs a start position (x) and a digit.
-	/// It will write this digit on the display
+	/// It will write this digit on the display starting at the x position.
 	void digits(int start, int digit);
 	
 	void testmatrix(int ms);
