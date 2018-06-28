@@ -19,14 +19,14 @@
 /// \brief
 ///	2D ledmatrix library
 /// \details
-///	This is a library for controlling a led matrix.
+///	This is a library for controlling a ledmatrix.
 /// The maxX and maxY are stored as two (signed) integers.
 /// The bus exists of the data and clock output.
 /// Load (CS) for loading the data on the matrix.
 /// Koloms is an array of uint8_t to store the byte values.
 /// Rows is an array of booleans to store the row values.
 class ledmatrix {
-private:
+protected:
 	int maxX;
 	int maxY;
 	hwlib::spi_bus & bus;
@@ -66,13 +66,14 @@ public:
 	/// \brief
 	///	write position to array
 	/// \details
-	/// This function writes the x and y position to the array koloms.
+	/// This function writes the y position to the array koloms
+	/// and the x position to the array rows.
 	void setpixel(int x, int y, bool state);
 
 	/// \brief
 	///	write to ledmatrix display
 	/// \details
-	/// This function loops over the koloms and rows array and
+	/// This function loops over the koloms and rows arrays and
 	/// writes all leds on the display.
 	void writepixels();
 
@@ -85,14 +86,14 @@ public:
 	/// \brief
 	/// clears all leds
 	/// \details
-	/// This function clears all leds.
+	/// This function sets a 0 for every row and kolom.
 	void clear_all();
 
 	/// \brief
 	/// write all leds
 	/// \details
-	/// This function sets all leds on.
-	/// The speed depends on the ms value.
+	/// This function sets every a 1 for every row and kolom.
+	/// The speed of setting the leds depends on the ms value.
 	void write_all(int ms);
 
 	/// \brief
@@ -110,7 +111,30 @@ public:
 	/// It will write this digit on the display starting at the x position.
 	void digits(int start, int digit);
 	
-	void testmatrix(int ms);
+	/// \brief
+	/// counter
+	/// \details
+	/// This function is een counter from 0 to a maximum of 99,
+	/// the fistmax is the maximum digit for 00,10,20,30....90 and
+	/// the secondmax is the maximum digit for 00,01,02.....09.
+	/// The speed of the counter depends on the ms value
+	void counter(int firstmax, int secondmax ,int ms);
+	
+	/// \brief
+	/// get koloms
+	/// \details 
+	/// This function gets the byte in the array on position and checks if the position is in range.
+	/// If position is in range the byte on that position will be returnt and 
+	/// if position is not in range -1 will be returnt
+	uint8_t getKoloms(int position);
+	
+	/// \brief
+	/// get rows
+	/// \details 
+	/// This function gets the bool in the array on position and checks if the position is in range.
+	/// If position is in range the bool on that position will be returnt and 
+	/// if position is not in range -1 will be returnt
+	bool getRows(int position);
 };
 
 #endif //LEDMATRIX_HPP

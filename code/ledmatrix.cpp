@@ -13,9 +13,6 @@
 #include "ledmatrix.hpp"
 
 void ledmatrix::setup(){
-	//uint8_t position[2] = {0x0F , 0x0F};      // test mode off
-	//bus.write_and_read( load, 2, position, nullptr );
-	
 	// define value to use ledmatrix
 	uint8_t position [2] = {};
 	position[0] =  0x0C; position[1] =  0x00 ; // shutdownmode = 0
@@ -104,10 +101,6 @@ void ledmatrix::write_pixel(int  x, int  y, bool value){
 		position[0] =  row; position[1] =  kolom ;         // position y         
 		bus.write_and_read( load, 2, position, nullptr );
 
-		//position[0] =  0x0C; position[1] =  0x01 ;         // shutdownmode = 1
-		//bus.write_and_read( load, 2, position, nullptr );
-
-		
 		if(y == maxY && value == 1){  
 			kolom = 0x00;                       //set next kolom 0x00
 		}
@@ -145,13 +138,26 @@ void ledmatrix::digits(int start, int digit){
 	}
 }
 
-void ledmatrix::testmatrix(int ms){
-	for(int k = 1; k >= 0; k--){
-		for( int j = 0; j <= maxX ; j++){
-			for(int i = 0; i <= maxY; i++){
-				write_pixel(j,i,k);
-				hwlib::wait_ms( ms );
-			}
+void ledmatrix::counter(int firstmax, int secondmax, int ms){
+   for(int j = 0; j < firstmax; j++){
+		digits(0,j); 
+	   for(int i = 0;  i < secondmax; i++){
+			digits(4,i);  
+			hwlib::wait_ms( ms );
 		}
 	}
+}
+
+uint8_t ledmatrix::getKoloms(int position){
+	if(position <= maxY){
+		return koloms[position-1];
+	}
+	return -1;
+}
+
+bool ledmatrix::getRows(int position){
+	if(position <= maxX){
+		return rows[position-1];
+	}
+	return -1;
 }
