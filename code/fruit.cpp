@@ -11,7 +11,7 @@
 // ==========================================================================
 #include "fruit.hpp"
 
-// set the position of the x and y coordinates to to 1 or 0 
+// set the position of the x and y coordinates to 1 or to 0 
 // Based on the state of the draw function
 void fruit::draw(int state){
 	if(state == 1){
@@ -21,7 +21,7 @@ void fruit::draw(int state){
 	}
 }
 
-// updates de x and y coordinates of the fruit to a new value
+// updates de x and y coordinates of the fruit to a new value (new coordinate)
 void fruit::update(){
 	fx = rand() % maxX + 1;
 	fy = rand() % maxY + 1;

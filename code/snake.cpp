@@ -11,9 +11,9 @@
 // ==========================================================================
 #include "snake.hpp"
 
-// set the position of the x and y coordinates to to 1 or 0 
-// Based on the state of the draw function
-// And repeats this for all tail parts 
+// set the position of the x and y coordinates to 1 or to 0 
+// based on the state of the draw function
+// repeats this for all tail parts 
 void snake::draw(int state){
 	for(int i = 0; i < tailSize; i++){
 		if(state == 1){
@@ -27,11 +27,11 @@ void snake::draw(int state){
 // updates the direction and tail
 // checks the conditions of the game
 void snake::update(int direction){
-	// last tail position x and y   
+	// snakehead position x and y   
 	int tailEndX = snakeX[0]; 
 	int tailEndY = snakeY[0];
 	
-	// swapping tail positon k with snakeHead position
+	// swapping the new tail end with the previous tail end as long as k is smaller then tailSize
 	for(int k = 0; k < tailSize; k++){
 	   int tmpx = snakeX[k]; 
 	   int tmpy = snakeY[k];
@@ -73,6 +73,7 @@ void snake::checkFruit(){
 	}
 }
 
+// show score on led matrix
 void snake::points(){
 	m.digits(0,score[0]);
 	m.digits(4,score[1]);

@@ -13,23 +13,22 @@
 #include "ledmatrix.hpp"
 
 void ledmatrix::setup(){
-	// define value to use ledmatrix
 	uint8_t position [2] = {};
-	position[0] =  0x0C; position[1] =  0x00 ; // shutdownmode = 0
+	position[0] =  0x0C; position[1] =  0x00 ; 
 	bus.write_and_read( load, 2, position, nullptr );
 
-	intensity(5); // set intensity
+	intensity(5); 
 
-	position[0] =  0x09; position[1] =  0x00 ;    // decode mode       mode of display       
+	position[0] =  0x09; position[1] =  0x00 ;               
 	bus.write_and_read( load, 2, position, nullptr );
 
 	uint8_t size = 0x01 * (maxX - 1);
-	position[0] =  0x0b; position[1] =  size ;         // led size x      
+	position[0] =  0x0b; position[1] =  size ;              
 	bus.write_and_read( load, 2, position, nullptr );
 
-	clear_all(); // set all leds off 
+	clear_all(); 
 
-	position[0] =  0x0C; position[1] =  0x01 ;  // shutdownmode = 1
+	position[0] =  0x0C; position[1] =  0x01 ;  
 	bus.write_and_read( load, 2, position, nullptr );
 
 }
@@ -37,10 +36,10 @@ void ledmatrix::setup(){
 void ledmatrix::setpixel(int x, int y, bool state){
 	if(state == 1){
 		rows[x-1] = 1;
-		koloms[x-1] |= (1 << (y - 1));
+		columns[x-1] |= (1 << (y - 1));
 	}else{
 		rows[x-1] = 0;
-		koloms[x-1] &= ~(1 << (y - 1));
+		columns[x-1] &= ~(1 << (y - 1));
 	}
 }
 
@@ -48,7 +47,7 @@ void ledmatrix::writepixels(){
 	uint8_t position [2] = {};
 	for(int a = 0; a < 8; a++){
 		if(rows[a] == 1){
-			position[0] =  0x01 * a+1; position[1] =  koloms[a] ;
+			position[0] =  0x01 * a+1; position[1] =  columns[a] ;
 		}else{
 			position[0] =  0x01 * a+1; position[1] =  0x00 ;
 		}
@@ -59,7 +58,6 @@ void ledmatrix::writepixels(){
 }
 
 void ledmatrix::intensity(int brithness){
-	 
 	uint8_t position [2] = {};
 	uint8_t bn = 0x01 * brithness;
 	position[0] =  0x0A; position[1] =  bn ;               
@@ -76,7 +74,6 @@ void ledmatrix::clear_all(){
 }
 
 void ledmatrix::write_all(int ms){
-	//turn all leds on
 	for( int j = 1; j <= maxX ; j++){
 		for(int i = 0; i <= maxY; i++){
 			setpixel(j,i,1);
@@ -84,7 +81,6 @@ void ledmatrix::write_all(int ms){
 			hwlib::wait_ms( ms );
 		}
 	}
-	
 }
 
 void ledmatrix::write_pixel(int  x, int  y, bool value){
@@ -93,16 +89,16 @@ void ledmatrix::write_pixel(int  x, int  y, bool value){
 		uint8_t row = 0x01 * x;
 		
 		if(value == 1){
-			kolom |= (1 << (y - 1));
+			column |= (1 << (y - 1));
 		}else{
-			kolom &= ~(1 << (y - 1));
+			column &= ~(1 << (y - 1));
 		}
 		
-		position[0] =  row; position[1] =  kolom ;         // position y         
+		position[0] =  row; position[1] =  column ;          
 		bus.write_and_read( load, 2, position, nullptr );
 
 		if(y == maxY && value == 1){  
-			kolom = 0x00;                       //set next kolom 0x00
+			column = 0x00;                       
 		}
 	}
 }
@@ -148,16 +144,16 @@ void ledmatrix::counter(int firstmax, int secondmax, int ms){
 	}
 }
 
-uint8_t ledmatrix::getKoloms(int position){
-	if(position <= maxY){
-		return koloms[position-1];
+uint8_t ledmatrix::getcolumns(int position){
+	if(position > 0 && position < maxY){
+		return columns[position-1];
 	}
-	return -1;
+	return 0xFF;
 }
 
-bool ledmatrix::getRows(int position){
-	if(position <= maxX){
+int ledmatrix::getRows(int position){
+	if(position > 0 && position < maxX){
 		return rows[position-1];
 	}
-	return -1;
+	return 2;
 }
